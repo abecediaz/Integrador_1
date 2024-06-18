@@ -1,6 +1,8 @@
 package Principal;
 
-public class App 
+import Anexos.Conexion;
+
+public class App
 {
     public static void main( String[] args )
     {

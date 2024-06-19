@@ -16,13 +16,6 @@ public class Pelicula {
     public Pelicula() {
     }
 
-    public Pelicula(String nombre, String genero_principal, String descripcion, double precio) {
-        this.nombre = nombre;
-        this.genero_principal = genero_principal;
-        this.descripcion = descripcion;
-        this.precio = precio;
-    }
-
     public Pelicula(String nombre, String genero_principal, String descripcion, double precio, int veces_alquilada, boolean esta_alquilada) {
         this.nombre = nombre;
         this.genero_principal = genero_principal;

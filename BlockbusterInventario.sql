@@ -4,9 +4,9 @@ USE Blockbuster;
 CREATE TABLE Pelicula (
   id_peliculas INT UNSIGNED NOT NULL AUTO_INCREMENT,
   nombre VARCHAR(100) NOT NULL,
-  genero_principal VARCHAR(45) NULL,
-  descripcion VARCHAR(250) NULL,
-  precio DOUBLE UNSIGNED NOT NULL DEFAULT 12,
+  genero_principal VARCHAR(45),
+  descripcion VARCHAR(250),
+  precio DOUBLE UNSIGNED NOT NULL,
   veces_alquilada INT UNSIGNED NOT NULL DEFAULT 0,
   esta_alquilada TINYINT UNSIGNED NOT NULL DEFAULT 0,
   PRIMARY KEY (id_peliculas));

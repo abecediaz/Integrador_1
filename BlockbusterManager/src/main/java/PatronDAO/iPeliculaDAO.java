@@ -82,8 +82,9 @@ public class iPeliculaDAO implements PeliculaDAO {
     }
 
     @Override
-    public void editar_por_id(int id_peliculas, int veces_alquilada, boolean esta_alquilada) {
+    public void editar_por_id(int id_peliculas, Pelicula pelicula) {
         String query = "UPDATE pelicula SET veces_alquilada = ?, esta_alquilada = ? WHERE id_peliculas = ?";
+        int veces_alquilada = pelicula.getVeces_alquilada();
         veces_alquilada++;
 
         try {
@@ -91,7 +92,7 @@ public class iPeliculaDAO implements PeliculaDAO {
 
             PreparedStatement prepared_statement = connection.prepareStatement(query);
             prepared_statement.setInt(1, veces_alquilada);
-            prepared_statement.setBoolean(2, !esta_alquilada);
+            prepared_statement.setBoolean(2, !pelicula.isEsta_alquilada());
             prepared_statement.setInt(3, id_peliculas);
             int resultado = prepared_statement.executeUpdate();
 

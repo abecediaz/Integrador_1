@@ -1,6 +1,7 @@
 package Principal;
-
-import Anexos.Conexion;
+import Anexos.*;
+import Entidades.*;
+import PatronDAO.*;
 
 public class App
 {

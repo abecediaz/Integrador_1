@@ -6,7 +6,7 @@ public class Pelicula {
     protected String nombre;
     protected String genero_principal;
     protected String descripcion;
-    protected double precio = 12.00;
+    protected double precio;
     protected int veces_alquilada = 0;
     protected boolean esta_alquilada = false;
 

@@ -147,7 +147,7 @@ public class iPeliculaDAO implements PeliculaDAO {
             ResultSet resultado = prepared_statement.executeQuery();
 
             if (resultado.next()) {
-                System.out.println("------------------------------------------------------------");
+                System.out.println("\n-----------------------------------------------------------------------------------------------------------------");
                 System.out.println("ID: " + resultado.getInt("id_peliculas"));
                 System.out.println("Nombre: " + resultado.getString("nombre"));
                 System.out.println("Género principal: " + resultado.getString("genero_principal"));
@@ -155,7 +155,7 @@ public class iPeliculaDAO implements PeliculaDAO {
                 System.out.println("Precio: " + resultado.getDouble("precio"));
                 System.out.println("Veces alquilada: " + resultado.getInt("veces_alquilada"));
                 System.out.println("Esta alquilada: " + resultado.getBoolean("esta_alquilada"));
-                System.out.println("------------------------------------------------------------");
+                System.out.println("-----------------------------------------------------------------------------------------------------------------");
             }
             else {
                 System.out.println("\nEl ID ingresado no corresponde a ninguna película.");
@@ -181,6 +181,7 @@ public class iPeliculaDAO implements PeliculaDAO {
             ResultSet resultado = prepared_statement.executeQuery();
 
             if (resultado.next()) {
+                System.out.println("\n-----------------------------------------------------------------------------------------------------------------");
                 while (resultado.next()) {
                     System.out.println("ID: " + resultado.getInt("id_peliculas"));
                     System.out.println("Nombre: " + resultado.getString("nombre"));
@@ -189,7 +190,7 @@ public class iPeliculaDAO implements PeliculaDAO {
                     System.out.println("Precio: " + resultado.getDouble("precio"));
                     System.out.println("Veces alquilada: " + resultado.getInt("veces_alquilada"));
                     System.out.println("Esta alquilada: " + resultado.getBoolean("esta_alquilada"));
-                    System.out.println("------------------------------------------------------------");
+                    System.out.println("-----------------------------------------------------------------------------------------------------------------");
                 }
             }
             else {
@@ -215,6 +216,7 @@ public class iPeliculaDAO implements PeliculaDAO {
             prepared_statement.setBoolean(1, esta_alquilada);
             ResultSet resultado = prepared_statement.executeQuery();
 
+            System.out.println("\n-----------------------------------------------------------------------------------------------------------------");
             while (resultado.next()) {
                 System.out.println("ID: " + resultado.getInt("id_peliculas"));
                 System.out.println("Nombre: " + resultado.getString("nombre"));
@@ -223,7 +225,7 @@ public class iPeliculaDAO implements PeliculaDAO {
                 System.out.println("Precio: " + resultado.getDouble("precio"));
                 System.out.println("Veces alquilada: " + resultado.getInt("veces_alquilada"));
                 System.out.println("Esta alquilada: " + resultado.getBoolean("esta_alquilada"));
-                System.out.println("------------------------------------------------------------");
+                System.out.println("-----------------------------------------------------------------------------------------------------------------");
             }
 
             prepared_statement.close();
@@ -244,6 +246,7 @@ public class iPeliculaDAO implements PeliculaDAO {
             PreparedStatement prepared_statement = connection.prepareStatement(query);
             ResultSet resultado = prepared_statement.executeQuery();
 
+            System.out.println("\n-----------------------------------------------------------------------------------------------------------------");
             while (resultado.next()) {
                 System.out.println("ID: " + resultado.getInt("id_peliculas"));
                 System.out.println("Nombre: " + resultado.getString("nombre"));
@@ -252,7 +255,7 @@ public class iPeliculaDAO implements PeliculaDAO {
                 System.out.println("Precio: " + resultado.getDouble("precio"));
                 System.out.println("Veces alquilada: " + resultado.getInt("veces_alquilada"));
                 System.out.println("Esta alquilada: " + resultado.getBoolean("esta_alquilada"));
-                System.out.println("------------------------------------------------------------");
+                System.out.println("-----------------------------------------------------------------------------------------------------------------");
             }
 
             prepared_statement.close();

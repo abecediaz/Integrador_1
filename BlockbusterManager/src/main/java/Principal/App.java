@@ -2,7 +2,6 @@ package Principal;
 import Anexos.*;
 import Entidades.*;
 import PatronDAO.*;
-import java.sql.Connection;
 import java.util.Scanner;
 
 public class App {
@@ -15,38 +14,35 @@ public class App {
 
         do {
             imprimir_menu_principal();
-            int opcion = scanner.nextInt();
+            int opcion = validar_input_int(scanner);
 
             switch (opcion) {
                 case 1:
                     do {
                         imprimir_menu_agregar();
-                        opcion = scanner.nextInt();
-                        scanner.nextLine();
+                        opcion = validar_input_int(scanner);
 
                         switch (opcion) {
                             case 1:
-                                ingresar_datos(pelicula);
+                                ingresar_datos(pelicula, scanner);
                                 pelicula_DAO.insertar_pelicula(pelicula);
                                 break;
                             case 2:
                                 menu_sub = false;
                                 break;
                             default:
-                                System.out.println("\nEl término que ingresó (" + opcion + ") no es válido. Por favor, inténtelo nuevamente.");
-                        }
+                                System.out.println("\nPor favor, ingrese un valor existente en el siguiente menú.");                        }
                     } while (menu_sub);
                     break;
                 case 2:
                     do {
                         imprimir_menu_eliminar();
-                        opcion = scanner.nextInt();
-                        scanner.nextLine();
+                        opcion = validar_input_int(scanner);
 
                         switch (opcion) {
                             case 1:
                                 System.out.print("\nIngrese el número ID de la película: ");
-                                int id_peliculas = scanner.nextInt();
+                                int id_peliculas = validar_input_int(scanner);
                                 pelicula_DAO.eliminar_por_id(id_peliculas);
                                 break;
                             case 2:
@@ -58,20 +54,18 @@ public class App {
                                 menu_sub = false;
                                 break;
                             default:
-                                System.out.println("\nEl término que ingresó (" + opcion + ") no es válido. Por favor, inténtelo nuevamente.");
-                        }
+                                System.out.println("\nPor favor, ingrese un valor existente en el siguiente menú.");                        }
                     } while (menu_sub);
                     break;
                 case 3:
                     do {
                         imprimir_menu_actualizar();
-                        opcion = scanner.nextInt();
-                        scanner.nextLine();
+                        opcion = validar_input_int(scanner);
 
                         switch (opcion) {
                             case 1:
                                 System.out.print("\nIngrese el número ID de la película: ");
-                                int id_peliculas = scanner.nextInt();
+                                int id_peliculas = validar_input_int(scanner);
                                 pelicula_DAO.editar_por_id(id_peliculas);
                                 break;
                             case 2:
@@ -80,7 +74,7 @@ public class App {
                                 pelicula.setNombre(nombre);
 
                                 System.out.print("Ingrese el precio nuevo de la película: $");
-                                double precio = scanner.nextDouble();
+                                double precio = validar_input_double(scanner);
                                 pelicula.setPrecio(precio);
 
                                 pelicula_DAO.editar_por_nombre(pelicula);
@@ -89,20 +83,18 @@ public class App {
                                 menu_sub = false;
                                 break;
                             default:
-                                System.out.println("\nEl término que ingresó (" + opcion + ") no es válido. Por favor, inténtelo nuevamente.");
-                        }
+                                System.out.println("\nPor favor, ingrese un valor existente en el siguiente menú.");                        }
                     } while (menu_sub);
                     break;
                 case 4:
                     do {
                         imprimir_menu_consultar();
-                        opcion = scanner.nextInt();
-                        scanner.nextLine();
+                        opcion = validar_input_int(scanner);
 
                         switch (opcion) {
                             case 1:
                                 System.out.print("\nIngrese el número ID de la película: ");
-                                int id_peliculas = scanner.nextInt();
+                                int id_peliculas = validar_input_int(scanner);
                                 pelicula_DAO.mostrar_por_id(id_peliculas);
                                 break;
                             case 2:
@@ -123,8 +115,7 @@ public class App {
                                 menu_sub = false;
                                 break;
                             default:
-                                System.out.println("\nEl término que ingresó (" + opcion + ") no es válido. Por favor, inténtelo nuevamente.");
-                        }
+                                System.out.println("\nPor favor, ingrese un valor existente en el siguiente menú.");                        }
                     } while (menu_sub);
                     break;
                 case 5:
@@ -132,7 +123,7 @@ public class App {
                     System.out.println("\nCerrando programa...");
                     break;
                 default:
-                    System.out.println("\nEl término que ingresó (" + opcion + ") no es válido. Por favor, inténtelo nuevamente.");
+                    System.out.println("\nPor favor, ingrese un valor existente en el siguiente menú.");
             }
         } while (menu_principal);
 
@@ -183,25 +174,22 @@ public class App {
         System.out.print("Ingrese el número correspondiente a la opción que quiera realizar: ");
     }
 
-    public static void ingresar_datos(Pelicula pelicula) {
-        Scanner scanner = new Scanner(System.in);
-
+    public static void ingresar_datos(Pelicula pelicula, Scanner scanner) {
         System.out.print("\nIngrese el nombre de la película: ");
         String nombre = scanner.nextLine();
         pelicula.setNombre(nombre);
 
+        System.out.println("\n");
         for (Genero genero : Genero.values()) {
             System.out.println(genero.ordinal() + 1 + ") " + genero);
         }
 
-        System.out.print("\nIngrese el número correspondiente al género de la película: ");
-        int opcion = scanner.nextInt();
-        scanner.nextLine();
+        System.out.print("Ingrese el número correspondiente al género de la película: ");
+        int opcion = validar_input_int(scanner);
 
         while (opcion < 1 || opcion > Genero.values().length){
             System.out.print("\nEl término que ingresó (" + opcion + ") no es válido. Por favor, inténtelo nuevamente: ");
-            opcion = scanner.nextInt();
-            scanner.nextLine();
+            opcion = validar_input_int(scanner);
         }
 
         pelicula.setGenero_principal(String.valueOf((Genero.values()[opcion - 1])));
@@ -211,7 +199,39 @@ public class App {
         pelicula.setDescripcion(sinopsis);
 
         System.out.print("\nIngrese el precio de la película: $");
-        double precio = scanner.nextDouble();
+        double precio = validar_input_double(scanner);
         pelicula.setPrecio(precio);
+    }
+
+    public static int validar_input_int(Scanner scanner) {
+        int numero = 0;
+        boolean validacion = true;
+
+        while (validacion) {
+            try {
+                numero = Integer.parseInt(scanner.nextLine());
+                validacion = false;
+
+            } catch (Exception e) {
+                System.out.print("\nEl término que ingresó no es válido. Por favor, inténtelo nuevamente: ");
+            }
+        }
+        return numero;
+    }
+
+    public static double validar_input_double(Scanner scanner) {
+        double numero = 0;
+        boolean validacion = true;
+
+        while (validacion) {
+            try {
+                numero = Double.parseDouble(scanner.nextLine());
+                validacion = false;
+
+            } catch (Exception e) {
+                System.out.print("\nEl término que ingresó no es válido. Por favor, inténtelo nuevamente: ");
+            }
+        }
+        return numero;
     }
 }

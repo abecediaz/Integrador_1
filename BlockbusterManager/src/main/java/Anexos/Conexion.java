@@ -11,10 +11,8 @@ public class Conexion {
     public static Connection conectar() {
         try {
             connection = DriverManager.getConnection(url, user, password);
-            System.out.println("LA CONEXIÓN FUE EXITOSA");
         }
         catch (Exception e) {
-            System.out.println("HUBO UN ERROR EN LA CONEXIÓN");
             e.printStackTrace();
         }
         return connection;

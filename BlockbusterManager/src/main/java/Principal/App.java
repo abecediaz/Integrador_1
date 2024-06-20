@@ -6,9 +6,9 @@ import java.util.Scanner;
 
 public class App {
     public static void main(String[] args) {
+        PeliculaDAO pelicula_DAO = new iPeliculaDAO();
         Scanner scanner = new Scanner(System.in);
         Pelicula pelicula = new Pelicula();
-        PeliculaDAO pelicula_DAO = new iPeliculaDAO();
         boolean menu_principal = true;
         boolean menu_sub = true;
 
@@ -17,108 +17,89 @@ public class App {
             int opcion = validar_input_int(scanner);
 
             switch (opcion) {
-                case 1:
+                case 1: /*AGREGAR*/
                     do {
                         imprimir_menu_agregar();
                         opcion = validar_input_int(scanner);
 
                         switch (opcion) {
-                            case 1:
-                                ingresar_datos(pelicula, scanner);
-                                pelicula_DAO.insertar_pelicula(pelicula);
+                            case 1: /*AGREGAR UNA PELÍCULA*/
+                                agregar_pelicula(pelicula, pelicula_DAO,scanner);
                                 break;
-                            case 2:
+                            case 2: /*VOLVER AL MENÚ PRINCIPAL*/
                                 menu_sub = false;
                                 break;
                             default:
                                 System.out.println("\nPor favor, ingrese un valor existente en el siguiente menú.");                        }
                     } while (menu_sub);
                     break;
-                case 2:
+                case 2: /*ELIMINAR*/
                     do {
                         imprimir_menu_eliminar();
                         opcion = validar_input_int(scanner);
 
                         switch (opcion) {
-                            case 1:
-                                System.out.print("\nIngrese el número ID de la película: ");
-                                int id_peliculas = validar_input_int(scanner);
-                                pelicula_DAO.eliminar_por_id(id_peliculas);
+                            case 1: /*ELIMINAR UNA COPIA*/
+                                eliminar_copia(pelicula_DAO, scanner);
                                 break;
-                            case 2:
-                                System.out.print("\nIngrese el nombre de la película: ");
-                                String nombre = scanner.nextLine();
-                                pelicula_DAO.eliminar_por_nombre(nombre);
+                            case 2: /*ELIMINAR UNA PELÍCULA*/
+                                eliminar_pelicula(pelicula_DAO, scanner);
                                 break;
-                            case 3:
+                            case 3: /*VOLVER AL MENÚ PRINCIPAL*/
                                 menu_sub = false;
                                 break;
                             default:
                                 System.out.println("\nPor favor, ingrese un valor existente en el siguiente menú.");                        }
                     } while (menu_sub);
                     break;
-                case 3:
+                case 3: /*ACTUALIZAR*/
                     do {
                         imprimir_menu_actualizar();
                         opcion = validar_input_int(scanner);
 
                         switch (opcion) {
-                            case 1:
-                                System.out.print("\nIngrese el número ID de la película: ");
-                                int id_peliculas = validar_input_int(scanner);
-                                pelicula_DAO.editar_por_id(id_peliculas);
+                            case 1: /*ACTUALIZAR ESTADO DE ALQUILER*/
+                                actualizar_alquiler(pelicula_DAO, scanner);
                                 break;
-                            case 2:
-                                System.out.print("\nIngrese el nombre de la película: ");
-                                String nombre = scanner.nextLine();
-                                pelicula.setNombre(nombre);
-
-                                System.out.print("Ingrese el precio nuevo de la película: $");
-                                double precio = validar_input_double(scanner);
-                                pelicula.setPrecio(precio);
-
-                                pelicula_DAO.editar_por_nombre(pelicula);
+                            case 2: /*ACTUALIZAR PRECIO DE PELÍCULAS*/
+                                actualizar_precio(pelicula, pelicula_DAO, scanner);
                                 break;
-                            case 3:
+                            case 3: /*VOLVER AL MENÚ PRINCIPAL*/
                                 menu_sub = false;
                                 break;
                             default:
                                 System.out.println("\nPor favor, ingrese un valor existente en el siguiente menú.");                        }
                     } while (menu_sub);
                     break;
-                case 4:
+                case 4: /*IMPRIMIR*/
                     do {
                         imprimir_menu_consultar();
                         opcion = validar_input_int(scanner);
 
                         switch (opcion) {
-                            case 1:
-                                System.out.print("\nIngrese el número ID de la película: ");
-                                int id_peliculas = validar_input_int(scanner);
-                                pelicula_DAO.mostrar_por_id(id_peliculas);
+                            case 1: /*CONSULTAR DATOS DE UNA COPIA*/
+                                consultar_copia(pelicula_DAO, scanner);
                                 break;
-                            case 2:
-                                System.out.print("\nIngrese el nombre de la película: ");
-                                String nombre = scanner.nextLine();
-                                pelicula_DAO.mostrar_por_nombre(nombre);
+                            case 2: /*CONSULTAR DATOS DE UNA PELÍCULA*/
+                                consultar_pelicula(pelicula_DAO, scanner);
                                 break;
-                            case 3:
+                            case 3: /*CONSULTAR PELÍCULAS ALQUILADAS*/
                                 pelicula_DAO.mostrar_por_estado(true);
                                 break;
-                            case 4:
+                            case 4: /*CONSULTAR PELÍCULAS NO ALQUILADAS*/
                                 pelicula_DAO.mostrar_por_estado(false);
                                 break;
-                            case 5:
+                            case 5: /*CONSULTAR TODAS LAS PELÍCULAS*/
                                 pelicula_DAO.mostrar_todo();
                                 break;
-                            case 6:
+                            case 6: /*VOLVER AL MENÚ PRINCIPAL*/
                                 menu_sub = false;
                                 break;
                             default:
                                 System.out.println("\nPor favor, ingrese un valor existente en el siguiente menú.");                        }
                     } while (menu_sub);
                     break;
-                case 5:
+                case 5: /*CERRAR PROGRAMA*/
                     menu_principal = false;
                     System.out.println("\nCerrando programa...");
                     break;
@@ -212,7 +193,7 @@ public class App {
                 numero = Integer.parseInt(scanner.nextLine());
                 validacion = false;
 
-            } catch (Exception e) {
+            } catch (NumberFormatException e) {
                 System.out.print("\nEl término que ingresó no es válido. Por favor, inténtelo nuevamente: ");
             }
         }
@@ -228,10 +209,57 @@ public class App {
                 numero = Double.parseDouble(scanner.nextLine());
                 validacion = false;
 
-            } catch (Exception e) {
+            } catch (NumberFormatException e) {
                 System.out.print("\nEl término que ingresó no es válido. Por favor, inténtelo nuevamente: ");
             }
         }
         return numero;
+    }
+
+    public static void agregar_pelicula(Pelicula pelicula, PeliculaDAO pelicula_DAO, Scanner scanner) {
+        ingresar_datos(pelicula, scanner);
+        pelicula_DAO.insertar_pelicula(pelicula);
+    }
+
+    public static void eliminar_copia(PeliculaDAO pelicula_DAO, Scanner scanner) {
+        System.out.print("\nIngrese el número ID de la película: ");
+        int id_peliculas = validar_input_int(scanner);
+        pelicula_DAO.eliminar_por_id(id_peliculas);
+    }
+
+    public static void eliminar_pelicula(PeliculaDAO pelicula_DAO, Scanner scanner) {
+        System.out.print("\nIngrese el nombre de la película: ");
+        String nombre = scanner.nextLine();
+        pelicula_DAO.eliminar_por_nombre(nombre);
+    }
+
+    public static void actualizar_alquiler(PeliculaDAO pelicula_DAO, Scanner scanner) {
+        System.out.print("\nIngrese el número ID de la película: ");
+        int id_peliculas = validar_input_int(scanner);
+        pelicula_DAO.editar_por_id(id_peliculas);
+    }
+
+    public static void actualizar_precio(Pelicula pelicula, PeliculaDAO pelicula_DAO, Scanner scanner) {
+        System.out.print("\nIngrese el nombre de la película: ");
+        String nombre = scanner.nextLine();
+        pelicula.setNombre(nombre);
+
+        System.out.print("Ingrese el precio nuevo de la película: $");
+        double precio = validar_input_double(scanner);
+        pelicula.setPrecio(precio);
+
+        pelicula_DAO.editar_por_nombre(pelicula);
+    }
+
+    public static void consultar_copia(PeliculaDAO pelicula_DAO, Scanner scanner) {
+        System.out.print("\nIngrese el número ID de la película: ");
+        int id_peliculas = validar_input_int(scanner);
+        pelicula_DAO.mostrar_por_id(id_peliculas);
+    }
+
+    public static void consultar_pelicula(PeliculaDAO pelicula_DAO, Scanner scanner) {
+        System.out.print("\nIngrese el nombre de la película: ");
+        String nombre = scanner.nextLine();
+        pelicula_DAO.mostrar_por_nombre(nombre);
     }
 }

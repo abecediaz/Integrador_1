@@ -17,6 +17,6 @@ public class Conexion {
             System.out.println("HUBO UN ERROR EN LA CONEXIÓN");
             e.printStackTrace();
         }
-        return null;
+        return connection;
     }
 }

@@ -20,12 +20,13 @@ public class iPeliculaDAO implements PeliculaDAO {
             prepared_statement.setDouble(4, pelicula.getPrecio());
             prepared_statement.executeUpdate();
 
+            System.out.println("\nDatos cargados correctamente.");
+
             prepared_statement.close();
             connection.close();
-            System.out.println("Datos cargados correctamente.");
         }
         catch (Exception e) {
-            System.out.println("Hubo un error en la carga de datos.");
+            System.out.println("\nHubo un error en la carga de datos.");
         }
     }
 
@@ -41,17 +42,17 @@ public class iPeliculaDAO implements PeliculaDAO {
             int resultado = prepared_statement.executeUpdate();
 
             if (resultado != 0) {
-                System.out.println("La película fue eliminada correctamente.");
+                System.out.println("\nLa película fue eliminada correctamente.");
             }
             else {
-                System.out.println("El ID ingresado no corresponde a ninguna película.");
+                System.out.println("\nEl ID ingresado no corresponde a ninguna película.");
             }
 
             prepared_statement.close();
             connection.close();
         }
         catch (Exception e) {
-            System.out.println("Hubo un error y no se pudo eliminar la película existente.");
+            System.out.println("\nHubo un error y no se pudo eliminar la película.");
         }
     }
 
@@ -67,74 +68,70 @@ public class iPeliculaDAO implements PeliculaDAO {
             int resultado = prepared_statement.executeUpdate();
 
             if (resultado != 0) {
-                System.out.println("Todas las copias de '" + nombre + "' fueron eliminadas correctamente.");
+                System.out.println("\nTodas las copias de '" + nombre + "' fueron eliminadas correctamente.");
             }
             else {
-                System.out.println("El nombre ingresado no corresponde a ninguna película existente.");
+                System.out.println("\nEl nombre ingresado no corresponde a ninguna película.");
             }
 
             prepared_statement.close();
             connection.close();
         }
         catch (Exception e) {
-            System.out.println("Hubo un error y no se pudieron eliminar las copias de '" + nombre + "'.");
+            System.out.println("\nHubo un error y no se pudieron eliminar las copias de '" + nombre + "'.");
         }
     }
 
     @Override
-    public void editar_por_id(int id_peliculas, Pelicula pelicula) {
-        String query = "UPDATE pelicula SET veces_alquilada = ?, esta_alquilada = ? WHERE id_peliculas = ?";
-        int veces_alquilada = pelicula.getVeces_alquilada();
-        veces_alquilada++;
+    public void editar_por_id(int id_peliculas) {
+        String query = "UPDATE pelicula SET esta_alquilada = NOT esta_alquilada, veces_alquilada = CASE WHEN esta_alquilada = true THEN veces_alquilada + 1 ELSE veces_alquilada END WHERE id_peliculas = ?";
 
         try {
             Connection connection = Conexion.conectar();
 
             PreparedStatement prepared_statement = connection.prepareStatement(query);
-            prepared_statement.setInt(1, veces_alquilada);
-            prepared_statement.setBoolean(2, !pelicula.isEsta_alquilada());
-            prepared_statement.setInt(3, id_peliculas);
+            prepared_statement.setInt(1, id_peliculas);
             int resultado = prepared_statement.executeUpdate();
 
             if (resultado != 0) {
-                System.out.println("Datos cambiados correctamente.");
+                System.out.println("\nDatos actualizados correctamente.");
             }
             else {
-                System.out.println("El ID ingresado no corresponde a ninguna película.");
+                System.out.println("\nEl ID ingresado no corresponde a ninguna película.");
             }
 
             prepared_statement.close();
             connection.close();
         }
         catch (Exception e) {
-            System.out.println("Hubo un error en la edición de datos.");
+            System.out.println("\nHubo un error en la edición de datos.");
         }
     }
 
     @Override
-    public void editar_por_nombre(String nombre, double precio) {
+    public void editar_por_nombre(Pelicula pelicula) {
         String query = "UPDATE pelicula SET precio = ? WHERE nombre = ?";
 
         try {
             Connection connection = Conexion.conectar();
 
             PreparedStatement prepared_statement = connection.prepareStatement(query);
-            prepared_statement.setString(1, nombre);
-            prepared_statement.setDouble(2, precio);
+            prepared_statement.setDouble(1, pelicula.getPrecio());
+            prepared_statement.setString(2, pelicula.getNombre());
             int resultado = prepared_statement.executeUpdate();
 
             if (resultado != 0) {
-                System.out.println("El precio de '" + nombre + "' fue actualizado correctamente.");
+                System.out.println("\nEl precio de '" + pelicula.getNombre() + "' fue actualizado correctamente.");
             }
             else {
-                System.out.println("El nombre ingresado no corresponde a ninguna película existente.");
+                System.out.println("\nEl nombre ingresado no corresponde a ninguna película existente.");
             }
 
             prepared_statement.close();
             connection.close();
         }
         catch (Exception e) {
-            System.out.println("Hubo un error en la edición de datos.");
+            System.out.println("\nHubo un error en la edición de datos.");
         }
     }
 
@@ -150,6 +147,7 @@ public class iPeliculaDAO implements PeliculaDAO {
             ResultSet resultado = prepared_statement.executeQuery();
 
             if (resultado.next()) {
+                System.out.println("------------------------------------------------------------");
                 System.out.println("ID: " + resultado.getInt("id_peliculas"));
                 System.out.println("Nombre: " + resultado.getString("nombre"));
                 System.out.println("Género principal: " + resultado.getString("genero_principal"));
@@ -157,16 +155,17 @@ public class iPeliculaDAO implements PeliculaDAO {
                 System.out.println("Precio: " + resultado.getDouble("precio"));
                 System.out.println("Veces alquilada: " + resultado.getInt("veces_alquilada"));
                 System.out.println("Esta alquilada: " + resultado.getBoolean("esta_alquilada"));
+                System.out.println("------------------------------------------------------------");
             }
             else {
-                System.out.println("El ID ingresado no corresponde a ninguna película.");
+                System.out.println("\nEl ID ingresado no corresponde a ninguna película.");
             }
 
             prepared_statement.close();
             connection.close();
         }
         catch (Exception e) {
-            System.out.println("Hubo un error en la consulta de datos.");
+            System.out.println("\nHubo un error en la consulta de datos.");
         }
     }
 
@@ -194,14 +193,14 @@ public class iPeliculaDAO implements PeliculaDAO {
                 }
             }
             else {
-                System.out.println("El nombre ingresado no corresponde a ninguna película.");
+                System.out.println("\nEl nombre ingresado no corresponde a ninguna película.");
             }
 
             prepared_statement.close();
             connection.close();
         }
         catch (Exception e) {
-            System.out.println("Hubo un error en la consulta de datos.");
+            System.out.println("\nHubo un error en la consulta de datos.");
         }
     }
 
@@ -231,7 +230,7 @@ public class iPeliculaDAO implements PeliculaDAO {
             connection.close();
         }
         catch (Exception e) {
-            System.out.println("Hubo un error en la consulta de datos.");
+            System.out.println("\nHubo un error en la consulta de datos.");
         }
     }
 
@@ -260,7 +259,7 @@ public class iPeliculaDAO implements PeliculaDAO {
             connection.close();
         }
         catch (Exception e) {
-            System.out.println("Hubo un error en la consulta de datos.");
+            System.out.println("\nHubo un error en la consulta de datos.");
         }
     }
 }
